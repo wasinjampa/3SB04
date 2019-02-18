@@ -1,0 +1,54 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <h1>คนติดเกมส์ 2020</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="{% url 'todo:create' %}" method="post">
+        {% csrf_token %}
+        <!-- Todo Name -->
+        <div class="form-group">
+            <label for="todo" class="col-sm-3 control-label">โปรแกรมเพิ่มเพื่อน</label>
+            <div class="col-sm-6">
+                {{ form.body }}
+            </div>
+        </div>
+
+        <!-- Add Todo Button -->
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button type="submit" class="btn btn-default">
+                    <i class="fa fa-plus"></i>เพิ่มเพื่อนอิอิ
+                </button>
+            </div>
+        </div>
+
+    </form>
+    
+
+    <!-- Current Todos -->
+    <h2>รายชื่อเพื่อน</h2>
+    <table class="table table-striped todo-table">
+        <thead>
+            <th>เพื่อน</th><th>&nbsp;</th>
+        </thead>
+
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <!-- Todo Name -->
+                    <td>
+                        <div>{{ post.body }}</div>
+                    </td>
+                    <td>
+                        <form action="{% url 'todo:delete' post.id %}" method="post">
+                            {% csrf_token %}
+                            <button>ลบเพื่อนทิ้ง</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}
